@@ -1,0 +1,28 @@
+<html>
+<head>
+
+
+</head>
+<body>
+    <h1>admin  login</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+    <label for="">Email :</label><br>
+    <input type="text" name="Email"  ><br>
+    <label for="">password :</label><br>
+    <input type="password" name="Pwd"  ><br>
+    <input type="submit" name="" id="" value="login">
+    
+    {% if messages %}
+    {% for msg in messages %}
+    {{msg}}
+    {% endfor %}
+    {% endif %}
+    
+    </form>
+
+
+
+</body>
+
+</html>

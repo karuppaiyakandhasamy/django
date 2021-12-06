@@ -1,0 +1,323 @@
+<html>
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+   $(document).on('click','#hide',function(){
+     
+       var response = grecaptcha.getResponse();
+       
+       if( response.length == 0){
+        alert("please verify recaptcha");
+        return false;
+       }
+
+    }); 
+    
+    function checkem() {
+      let um = document.getElementById("checkemail").value;
+      
+      let pattern =  /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+       if (um.match(pattern)){
+        $("#vv").html("");
+       }
+       else{
+        vv.innerHTML = "invalid mail syntax"
+        
+       }
+
+      $.ajax({
+        url: "{% url 'checkemail' %}",
+        type: "get",
+        data: { aemail: um },
+        success: function (data) {
+          if (data=="email valid"){
+          $("#resemail").html("email valid");
+          
+          
+          }
+          else {
+            $("#resemail").html("email  invalid");
+            
+            
+             
+          }
+
+        }
+        
+
+      })
+    }
+    function checkphone() {
+      let phone = document.getElementById("cphone").value;
+      $.ajax({
+        url: "{% url 'checkphone' %}",
+        type: "get",
+        data: { iphone: phone },
+        success: function (data) {
+          
+          if (data=="valid"){
+              $("#presult").html("phone valid");
+            
+            
+
+          }
+          else {
+            $("#presult").html("phone  invalid");
+            
+             
+          }
+
+        },
+        
+
+      })
+    }
+    function checkpwd() {
+      let pwd1 = document.getElementById("pass1").value;
+      let pwd2 = document.getElementById("pass2").value;
+      $.ajax({
+        url: "{% url 'checkpwd' %}",
+        type: "get",
+        data: { iphone1: pwd1, iphone2: pwd2 },
+        success: function (data) {
+          if(data=="valid"){
+            $("#pwresult").html("valid");
+            
+          }
+          else{
+            $("#pwresult").html("password wrong");
+          
+          }
+          
+        },
+       
+
+
+      })
+    }
+    function checkme() {
+      let ala = document.getElementById("pass1").value;
+
+
+      if (ala.length < 8) {
+        document.getElementById("passc").innerHTML = "pass length must be 8 char";
+        return ("too short");
+      } else if (ala.search(/[0-9]/) == -1) {
+
+        document.getElementById("passc").innerHTML = " atleast one numeric  must be  enter";
+        return ("no number");
+      }
+      else if (ala.search(/[a-z]/) == -1) {
+
+        document.getElementById("passc").innerHTML = " atleast one small letter  must be  enter";
+        return ("no small letter ");
+      }
+      else if (ala.search(/[A-Z]/) == -1) {
+
+        document.getElementById("passc").innerHTML = " atleast one capital letter  must be  enter";
+        return ("no capital letter ");
+      }
+      else {
+
+        document.getElementById("passc").innerHTML = "valid password";
+        return ("ok");
+      }
+     
+
+    }
+  
+    function checkform(){
+
+      let cemail = document.getElementById("checkemail").value;
+      let cphone = document.getElementById("cphone").value;
+      let cpwd = document.getElementById("pass1").value;
+      let cpwd1 = document.getElementById("pass2").value;
+      $.ajax({
+        url: "{% url 'checkform' %}",
+        type: "get",
+        data: { iphone1: cemail, iphone2: cphone , ccp:cpwd, ccp1:cpwd1 },
+        success: function (data) {
+          if(data=="valid"){
+            $("#fiesult").html("");
+            $("#hide").show();
+          }
+          else{
+            
+            $("#hide").hide();
+            $("#hide").stop();
+            $("#fiesult").html("enter the valid name and fields");
+          }
+     
+          
+        },
+       
+
+
+      })     
+
+    }
+
+  </script>
+
+</head>
+
+<body>
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+  <form method="POST"  onmouseover="checkform()" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class="table table-bordered table-light 1table">
+      <tr>
+        <td>{% if messages %}
+          {% for msg in messages %}
+          {{msg}}
+          {% endfor %}
+          {% endif %}</td>
+      </tr>
+      <tr>
+        <td>Firstname</td>
+        <td><input type="text" id="name" name="Username" onkeyup="check()" required>
+          <p id="result"> </p>
+        </td>
+
+      </tr>
+      <tr>
+        <td>Lastname</td>
+        <td><input type="text" name="Lastname" required></td>
+
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><input type="email" name="Email" id="checkemail" onkeyup="checkem()"  required>
+          <p id="resemail"></p> <p id="vv"></p>
+
+        </td>
+
+      </tr>
+      <tr>
+        <td>DOB</td>
+        <td><input type="date" name="Age" required></td>
+      </tr>
+      <tr>
+        <td>City</td>
+        <td><input type="text" name="City" required></td>
+      </tr>
+      <tr>
+        <td>Phone</td>
+        <td><input type="text" name="Phone" id="cphone" size="10" maxlength="10" onkeyup="checkphone()"   required max="10">
+          <p id="presult"> </p>
+        </td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input type="password" name="Pwd" id="pass1" size="8" maxlength="8" onkeyup="checkme()"   required>
+          <p id="passc"></p>
+        </td>
+      </tr>
+      <tr>
+        <td>password(again)</td>
+        <td><input type="password" name="RPwd" id="pass2" size="8" maxlength="8" onkeyup="checkpwd()"  required>
+          <p id="pwresult"> </p>
+        </td>
+
+      </tr>
+         
+
+      <tr>
+        <td>
+          <div class="g-recaptcha"  data-sitekey="6LdaijkdAAAAAI6nPw4uWjBw1Ud2mLiL0WIR-4cd"></div>
+        </td>
+
+      </tr>
+      <tr>
+        <td>
+        <td><input type="submit" id="hide"  > <p id="fiesult"></p></td>
+        
+      </td>
+      </tr>
+
+
+
+
+
+
+
+    </table>
+
+
+
+  </form>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
